@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -73,16 +74,28 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Colors.teal,
-        actions: [
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () async {
-                await _auth.signOut();
-                Navigator.pushNamed(context, '/');
-              })
-        ],
+        backgroundColor: Colors.teal[600], // Make appbar transparent
+        elevation: 0, // Remove appbar elevation
+        leading: IconButton(
+          color: Colors.white,
+          icon: Icon(
+            Icons.arrow_back,
+            shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],
+            size: 40,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(
+                context, '/login'); // Navigate back when back arrow is pressed
+          },
+        ),
+        title: Text(
+          'Login',
+          style: GoogleFonts.lobster(
+            fontSize: 40,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(

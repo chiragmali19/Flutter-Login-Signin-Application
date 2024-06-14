@@ -36,6 +36,28 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purple, // Make appbar transparent
+        elevation: 0, // Remove appbar elevation
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(
+            Icons.arrow_back,
+            size: 40,
+          ),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back
+          },
+        ),
+        title: Text(
+          'Login',
+          style: GoogleFonts.lobster(
+            fontSize: 40,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -45,47 +67,30 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Login',
-                  style: GoogleFonts.lobster(
-                    fontSize: 40,
-                    color: Colors.white,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  _buildTextField(
+                    labelText: 'Email',
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                   ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      email = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      password = value;
-                    });
-                  },
-                  obscureText: !_isPasswordVisible,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Password',
+                  SizedBox(height: 20),
+                  _buildTextField(
+                    labelText: 'Password',
+                    obscureText: !_isPasswordVisible,
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
                     suffixIcon: IconButton(
                       icon: Icon(_isPasswordVisible
                           ? Icons.visibility
@@ -96,44 +101,97 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
+                  ),
+                  SizedBox(height: 40),
+                  _buildLoginButton(),
+                  SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignupPage()),
+                      );
+                    },
+                    child: Text(
+                      'Create New Account',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                    backgroundColor: Colors.orange,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: () {
-                    signInWithEmailAndPassword();
-                  },
-                ),
-                SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupPage()),
-                    );
-                  },
-                  child: Text(
-                    'Create New Account',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required String labelText,
+    bool obscureText = false,
+    required ValueChanged<String> onChanged,
+    Widget? suffixIcon,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.6), // Transparent with white tint
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purpleAccent.withOpacity(0.4),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: TextField(
+        onChanged: onChanged,
+        obscureText: obscureText,
+        style: TextStyle(color: Colors.white), // Text color
+        decoration: InputDecoration(
+          labelText: labelText,
+          labelStyle:
+              TextStyle(color: Colors.black.withOpacity(1)), // Label color
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
+          ),
+          suffixIcon: suffixIcon,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Material(
+      elevation: 10,
+      shadowColor: Colors.black.withOpacity(1),
+      borderRadius: BorderRadius.circular(30),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.orange.withOpacity(0.8), Colors.orange],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: InkWell(
+          onTap: () {
+            signInWithEmailAndPassword();
+          },
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            alignment: Alignment.center,
+            width: 180,
+            height: 50,
+            child: Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

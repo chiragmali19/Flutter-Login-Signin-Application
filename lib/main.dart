@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:login_signin/login_signup_page.dart';
 import 'package:login_signin/profile_page.dart';
 import 'package:login_signin/signup_page.dart';
+import 'package:login_signin/welcome_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Login/Signup',
         initialRoute: '/',
         routes: {
-          '/': (context) => LoginPage(),
+          '/': (context) => WelcomePage(),
+          '/login': (context) => LoginPage(),
           '/signin': (context) => SignupPage(),
           '/home': (context) => ProfilePage(),
         });
