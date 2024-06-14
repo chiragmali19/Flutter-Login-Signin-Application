@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignupPage extends StatefulWidget {
@@ -9,12 +9,12 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  String username = '';
   String email = '';
   String password = '';
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore =
-      FirebaseFirestore.instance; // Initialize Firestore
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   bool _isPasswordVisible = false;
 
@@ -29,6 +29,7 @@ class _SignupPageState extends State<SignupPage> {
 
       // Store user data in Firestore
       await _firestore.collection('users').doc(credential.user?.uid).set({
+        'username': username,
         'email': email,
         'password': password,
       });
@@ -38,6 +39,19 @@ class _SignupPageState extends State<SignupPage> {
     } on FirebaseAuthException catch (e) {
       print('Error signing up: $e');
       // Handle signup error
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Signup Error'),
+          content: Text(e.message ?? 'An error occurred during signup.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -63,6 +77,23 @@ class _SignupPageState extends State<SignupPage> {
                   style: GoogleFonts.lobster(
                     fontSize: 40,
                     color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      username = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Username',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),

@@ -1,7 +1,8 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:login_signin/home_page.dart';
 import 'package:login_signin/login_signup_page.dart';
+import 'package:login_signin/profile_page.dart';
 import 'package:login_signin/signup_page.dart';
 import 'firebase_options.dart';
 
@@ -10,24 +11,28 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: PlayIntegrityProvider(), // For Android
+  );
   runApp(MyApp());
+}
+
+// Corrected PlayIntegrityProvider function
+AndroidProvider PlayIntegrityProvider() {
+  return AndroidProvider.playIntegrity;
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Login/Signup',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => LoginPage(),
-        '/signin': (context) => SignupPage(),
-        '/home': (context) => HomePage(),
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Login/Signup',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => LoginPage(),
+          '/signin': (context) => SignupPage(),
+          '/home': (context) => ProfilePage(),
+        });
   }
 }
