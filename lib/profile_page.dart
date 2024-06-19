@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -74,62 +75,119 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal[600], // Make appbar transparent
-        elevation: 0, // Remove appbar elevation
+        backgroundColor: Colors.black,
+        elevation: 0,
         leading: IconButton(
-          color: Colors.white,
+          color: Colors.deepPurpleAccent,
           icon: Icon(
             Icons.arrow_back,
-            shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],
-            size: 40,
+            size: 30,
           ),
           onPressed: () {
-            Navigator.pushNamed(
-                context, '/login'); // Navigate back when back arrow is pressed
+            Navigator.pop(context);
           },
         ),
         title: Text(
-          'Login',
+          'Profile',
           style: GoogleFonts.lobster(
-            fontSize: 40,
-            color: Colors.white,
+            fontSize: 30,
+            color: Colors.deepPurpleAccent,
+            shadows: [
+              Shadow(
+                blurRadius: 10.0,
+                color: Colors.deepPurpleAccent,
+                offset: Offset(2, 2),
+              ),
+            ],
           ),
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage:
-                  _profileImageUrl != null && _profileImageUrl!.isNotEmpty
-                      ? NetworkImage(_profileImageUrl!)
-                      : null,
-              child: _profileImageUrl == null || _profileImageUrl!.isEmpty
-                  ? Icon(
-                      Icons.person,
-                      size: 50,
-                      color: Colors.grey,
-                    )
-                  : null,
-            ),
-            SizedBox(height: 20),
-            Text(
-              _username,
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              _email,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: Text('Update Profile Image'),
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.black, Colors.deepPurple, Colors.black],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage:
+                        _profileImageUrl != null && _profileImageUrl!.isNotEmpty
+                            ? NetworkImage(_profileImageUrl!)
+                            : null,
+                    child: _profileImageUrl == null || _profileImageUrl!.isEmpty
+                        ? Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.grey,
+                          )
+                        : null,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt,
+                          color: Colors.deepPurpleAccent),
+                      onPressed: _pickImage,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Text(
+                _username,
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0,
+                      color: Colors.deepPurpleAccent,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                _email,
+                style: GoogleFonts.roboto(
+                  fontSize: 16,
+                  color: Colors.white70,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  shadowColor: Colors.deepPurpleAccent.withOpacity(0.5),
+                  elevation: 8,
+                ),
+                onPressed: _pickImage,
+                child: Text(
+                  'Update Profile Image',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

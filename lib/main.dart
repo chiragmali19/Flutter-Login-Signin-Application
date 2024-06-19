@@ -1,7 +1,9 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:login_signin/home_page.dart';
 import 'package:login_signin/login_signup_page.dart';
+import 'package:login_signin/player_page.dart';
 import 'package:login_signin/profile_page.dart';
 import 'package:login_signin/signup_page.dart';
 import 'package:login_signin/welcome_page.dart';
@@ -26,6 +28,7 @@ AndroidProvider PlayIntegrityProvider() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var playlist;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Login/Signup',
@@ -34,7 +37,11 @@ class MyApp extends StatelessWidget {
           '/': (context) => WelcomePage(),
           '/login': (context) => LoginPage(),
           '/signin': (context) => SignupPage(),
-          '/home': (context) => ProfilePage(),
+          '/home': (context) => HomePage(),
+          '/profile': (context) => ProfilePage(),
+          '/play': (context) => PlayerPage(
+                playlist: playlist,
+              )
         });
   }
 }

@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -51,6 +51,10 @@ dependencies:
   flutter_theme_provider: ^0.0.4
   firebase_app_check: ^0.3.0+1
   flutter_3d_choice_chip: ^0.1.4
+  flutter_svg: ^1.0.0
+  path: ^1.9.0
+  flutter_xlider: ^3.5.0-nullsafety.0
+  sleek_circular_slider: ^2.0.0
 
 dev_dependencies:
   flutter_test:
